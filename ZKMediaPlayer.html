@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="ZKMediaPlayer.css" />
+    <title>ZK Media Player</title>
+</head>
+<body>
+    <div id="videoTools" class="visible"  >
+      <video  id="video" class="player" autoplay  ></video>
+    <div id="tools">
+    <div id="ElapsedTime" >--:--</div>
+    <div id="progress"><div id="slide" ></div></div>
+    <div id="duree">--:--</div>
+    <img src="play.png" id="play" class="tooler" alt=""/>
+      <img src="stop.png" id="stop" class="tooler" alt=""/>
+      <img src="previous.png" alt="" id="previous" class="tooler"/>
+      <img src="next.png" alt="" id="next" class="tooler" />
+      <img src="continue.png" id="mode" class="tooler" alt=""/>
+      <img src="" id="sound" alt="">
+      <input title="100%" type="range" name="" tabindex="-1" id="sound-setter"/>
+      <div id="cntVS" >
+        <span id="space"></span>
+        <span id="NormalVolumeShower">100%</span>
+        </div>
+        <div id="fakebox" role="searchbox" tabindex="0" aria-label="Rechercher ou entrer une adresse web">
+          <svg aria-hidden="true" id="searchbutton" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <circle cx = "12" cy = "12" r="10" fill="red" stroke="#c7c7c7"></circle>
+          </svg>
+          <i id="cursor" aria-hidden="true" aria-disabled="true"></i>
+          <div id="placeholder" aria-hidden="true" aria-disabled="true">
+            Enregistrement en cours
+          </div>
+      </div>
+  </div>
+  </div>
+  <div id="PlaybackRate-shower" ></div>
+    <script>
+        (function (){
+
+var play = document.querySelector('#play'),ElapsedTime = document.querySelector('#ElapsedTime'),duree=document.querySelector('#duree'),progress=document.querySelector('#progress'),stop=document.querySelector('#stop');
+var soundSetter = document.querySelector('#sound-setter');
+var player = document.querySelector('#video');
+var fileInput = document.querySelector('#file');
+var containers = [document.querySelector('#option'),document.querySelector('#videoTools')];
+var slide = document.querySelector('#slide');
+var tools = document.querySelector('#tools');
+var body = document.querySelector('body');
+var NormalVS = document.querySelector("#NormalVolumeShower");
+function verif(filePath){
+    var allowedTypes = ['mp4','mkv','avi','mpeg4','mp3','webm'];
+      var FileType,retour;
+        
+        
+            FileType = filePath.split('.') ; // on recupere le nom du fichiers puis on le split pour recuperer l extension
+            FileType = FileType[FileType.length - 1].toLowerCase(); 
+            if(allowedTypes.indexOf(FileType) != -1){
+                retour = true
+            }else{
+                retour = false;
+            }
+        return retour;
+}
+var text="";
+for(var i in player){
+    text+=`[${i}]=>${this[i]}\n`;
+}
+console.log(text);
+soundSetter.onchange = ()=>{
+  player.volume = soundSetter.value/100;
+}
+soundSetter.onclick = (e)=>{
+  e.preventDefault();
+}
+soundSetter.onfocus = (e)=>{
+  soundSetter.blur();
+}
+soundSetter.value = 100;
+player.onclick = (e)=>{
+  e.preventDefault();
+}
+soundSetter.onmouseover = (e)=>{
+  soundSetter.title = Math.ceil(((e.clientX - soundSetter.offsetLeft)*100)/soundSetter.offsetWidth) + "%";
+}
+soundSetter.onmousemove =(e)=>{
+  soundSetter.title = Math.ceil(((e.clientX - soundSetter.offsetLeft)*100)/soundSetter.offsetWidth) + "%";
+}
+window.onreading = true;
+var vWidth;
+
+var sounder = document.createElement('span');
+  sounder.id = 'sounder';
+  document.body.appendChild(sounder);
+
+  var timeoutSounderID;
+window.onkeyup = (e)=>{
+  e.preventDefault();
+  if(timeoutSounderID){
+    clearTimeout(timeoutSounderID);
+    timeoutSounderID = false;
+  }
+  var currentPercentVolume = player.volume * 100;
+  if(e.keyCode == 38 && player.volume <1){
+    var add = currentPercentVolume % 5 ;
+    add/=100;
+    player.volume = 0.05 - add + player.volume;
+    soundSetter.value = player.volume * 100;
+    sounder.textContent = 'Volume: ' + Math.round(player.volume*100) +'%'
+  sounder.style.display='inline-block';
+  }
+  if(e.keyCode==40 && player.volume>0){
+    var sub = currentPercentVolume % 5 ;
+    if(sub == 0){
+      player.volume-=0.05;
+    }else{
+      var nextPercentVolume = currentPercentVolume - sub;
+      player.volume = nextPercentVolume/100;
+    }
+    soundSetter.value = player.volume * 100;
+    sounder.textContent = 'Volume: ' + Math.round(player.volume*100) +'%'
+  sounder.style.display='inline-block';
+  }
+  if(currentPercentVolume != player.volume){
+    timeoutSounderID=setTimeout(()=>{
+    sounder.style.display='none';
+  },3000)
+  }
+  if(e.keyCode == 37){
+    if(player.currentTime >=5)     player.currentTime -=5;
+    if(player.currentTime<5) player.currentTime=0;
+  }
+ if(e.keyCode == 32){
+  if(player.paused && verif(player.src)){
+                player.play();
+              }else{
+                player.pause();
+              }
+ }
+}
+
+progress.onclick = (e)=>{
+  if(verif(player.src)){
+var nom = parseInt(getComputedStyle(ElapsedTime,null).width.split('p')[0]) ;
+var num = e.clientX - nom;
+var denom = parseInt(getComputedStyle(progress,null).width.split('p')[0]);
+var frac = num/denom;
+player.currentTime = player.duration * frac;
+  }
+}
+          
+stop.onclick=()=>{
+  player.pause();
+  ElapsedTime.textContent='--:--',duree.textContent='--:--'
+  window.onreading=false;
+  player.src=''
+  slide.style.width='0px';
+}
+
+  player.addEventListener("pause",()=>{
+    play.src = "play.png";
+  })
+  player.addEventListener("play",()=>{
+    play.src = "pause.png";
+    //player.requestPictureInPicture();
+  })
+            play.onclick = (e)=>{
+              if(verif(player.src)){
+                if(player.paused){
+                player.play();
+              }else{
+                player.pause();
+              }
+              }
+            }
+            window.onresize = (e)=>{
+var duration = player.duration;
+              var time = player.currentTime;
+              var fraction = time/duration;
+              slide.style.width = parseInt(getComputedStyle(progress,null).width.split('px')[0])*fraction + 'px';
+              player.height = parseFloat(getComputedStyle(body,null).height.split('px')[0]) - parseFloat(getComputedStyle(tools,null).height.split('px')[0]);
+            }
+
+            function treatTime(Time){
+  var h = Math.floor(Time/3600);
+  var min = Math.floor((Time%3600)/60);
+  var sec = Math.floor((Time%3600)%60)
+  var result;
+  if(Number.isNaN(h) || Number.isNaN(min) || Number.isNaN(sec)){
+                result = "--:--";
+              }else{
+                if(sec < 10){sec='0'+sec};
+              if(min<10){min='0'+min}
+              if(h<10 && h!==0){h='0'+h}
+              if(h==0){
+                result = min + ':' + sec;
+              }else{
+                result = h + ':' + min + ':' + sec;
+              }
+              }
+              return result;
+}
+
+            player.ontimeupdate = (e)=>{
+              if(window.onreading == false){
+                ElapsedTime.textContent='--:--';
+                duree.textContent='--:--'
+              }else{
+              var duration = player.duration;
+              var time = player.currentTime;
+              var fraction = time/duration;
+              slide.style.width = parseInt(getComputedStyle(progress,null).width.split('px')[0])*fraction + 'px';
+             ElapsedTime.textContent = treatTime(time);
+             duree.textContent = treatTime(duration);
+              }
+            }
+            player.addEventListener('ended',(e)=>{
+              slide.style.width ='0px';
+            })
+            var title = (e)=>{
+  var l = e.clientX - parseFloat(getComputedStyle(ElapsedTime,null).width.split('p')[0]);
+var r = player.duration * l/parseFloat(getComputedStyle(progress,null).width.split('p')[0]);
+r = treatTime(r);
+  progress.title = r;
+}
+progress.onmouseenter=title;
+progress.onmousemove = title;
+
+player.onvolumechange = ()=>{
+ NormalVS.textContent = Math.floor(player.volume*100) + "%";
+}
+        })();
+    </script>
+</body>
+</html>

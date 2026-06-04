@@ -1,0 +1,295 @@
+html,body{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    -webkit-user-select: none;
+    user-select: none;
+}
+.visible{
+    display: grid;
+    align-items: stretch;
+}
+.invisible{
+    display: none;
+}
+#videoTools{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    grid-template-columns: 20px 1fr 20px;
+    grid-template-rows: 1fr 67px;
+    overflow: hidden;
+}
+#test{
+    width: 100%;
+    height: auto;
+    grid-column-start: 1;
+    grid-column-end: span 3;
+    grid-row-start: 1;
+    grid-row-end: span 1;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+video{
+    width: 100%;
+    grid-column-start: 1;
+    grid-column-end: span 3;
+    grid-row-start: 1;
+    grid-row-end: span 1;
+    margin: 0;
+    padding: 0;
+    background-image: url("float.png");
+    background-position: center;
+    background-repeat: no-repeat ; 
+}
+
+#tools{
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-column-start: 1;
+    grid-column-end: span 3;
+    grid-row-start: 2;
+    background-color: #1e1e1e;
+    color: white;
+    grid-template-columns: 63px 40px 40px 40px 40px 1fr 63px;
+    grid-template-rows: 5px 12px 40px ;
+    row-gap: 5px;
+}
+
+#stop{
+    width: 30px;
+    height: 35px;
+    justify-self: center;
+    grid-column-start: 2;
+    grid-column-end:2;
+    grid-row-start: 3;
+    grid-row-end: 3;
+}
+
+#ElapsedTime{
+    grid-column-start: 1;
+    grid-column-end:span 1;
+    grid-row-start: 2;
+    grid-row-end: span 1;
+    text-align: center;
+}
+
+#progress{
+    grid-column-start: 2;
+    grid-row-start: 2;
+    grid-column-end:span 5;
+    grid-row-end: span 1;
+    width: auto;
+    border-radius: 6px/5px;
+    background-color: #2b2a33;
+}
+
+#duree{
+grid-column-start: 7;
+grid-row-start: 2;
+grid-row-end: span 1;
+text-align: end;
+text-align: center;
+}
+
+#play{
+    width: 58px;
+    height: 40px;
+    grid-column-start: 1;
+    grid-row-start: 3;
+}
+
+#slide{
+    background-color: blue;
+    height: 12px;
+    width: 0px;
+    border-radius: 6px/5px;
+}
+#sounder{
+    position: absolute;
+    top:15px;
+    left: 30px;
+    color: white;
+    font-size: 16px;
+}
+#previous{
+    grid-column-start: 3;
+    grid-column-end: 3;
+}
+#next{
+    grid-column-start: 4;
+    grid-column-end: 4;
+}
+.tooler{
+    width: 40px;
+    height: 40px;
+    grid-row-start: 3;
+    grid-row-end: 3;
+}
+#mode{
+    grid-column-start: 5;
+    grid-column-end: 5;
+}
+.player{
+    background-color: black;
+}
+#sound{
+    grid-column-start: 7;
+    grid-column-end: 7;
+    grid-row-start: 3;
+}
+#sound-setter{
+    grid-column-start: 6;
+    grid-column-end: 6;
+    grid-row-start: 3;
+    height: 10px;
+    position: relative;
+    top:5px;
+}
+
+#sound-setter:focus{
+    grid-column-start: 6;
+    grid-column-end: 6;
+    grid-row-start: 3;
+    height: 10px;
+    border: none;
+}
+
+#PlaybackRate-shower{
+    display: none;
+    position: absolute;
+    color: white;
+    font-size: 16px;
+    top: 15px;
+    border: none;
+}
+.save{
+    position: absolute;
+    top:0;
+    height: 88px;
+    width: 44px;
+    left: 0;
+    background-color: grey;
+}
+.saver{
+    border-width: 2px;
+    border-color: #7f7c7c;
+}
+#cntVS{
+    grid-column-start: 7;
+    grid-column-end: 7;
+    grid-row-start: 3;
+    grid-row-end:3;
+    justify-items: stretch;
+    display: grid;
+    grid-template-rows: 30% 70%;
+    grid-template-columns: 100%;
+}
+#space{
+    grid-row-start: 1;
+}
+#NormalVolumeShower{
+    grid-row-start: 2;
+    justify-content: center;
+    text-align: center;
+}
+.tooler:hover{
+    background-color: rgba(126, 126, 126, 0.5);
+    border-radius: 3px/5px;
+    border-width: 3px;
+    transition: cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+#placeholder{
+    background-color: #000000; 
+}
+#fakebox{
+    position: absolute;
+    top:6px;
+    left: 3px;
+    --header-height: 50px;
+--fill-color: #070707;
+--fill-popup-color: #000000;
+--neutral-layer-floating: #000000;
+--logo-color: rgb(255, 255, 255);
+--neutral-foreground-rest: #262626;
+--neutral-fill-rest: rgba(0, 0, 0, 3.92%);
+--placeholder-color: rgb(115, 115, 115);
+--font-family: Segoe UI, Segoe UI Midlevel, Segoe WP, Arial, sans-serif;
+--accent-foreground-rest: #0072c9;
+--borderRadiusMedium: 4px;
+--shadow2: 0 0 2px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.14);
+--shadow4: 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.14);
+--lineHeightBase300: 20px;
+--fontSizeBase300: 14px;
+--spacingVerticalXS: 4px;
+--spacingVerticalSNudge: 6px;
+--spacingHorizontalS: 8px;
+--spacingVerticalMNudge: 10px;
+--spacingHorizontalXXL: 32px;
+--colorNeutralForeground1: #242424;
+--colorNeutralForeground1Pressed: #242424;
+--colorNeutralForeground1Hover: #242424;
+--colorNeutralBackground1: #000000;
+--colorNeutralBackground1Pressed: #000000;
+--colorNeutralBackground1Hover: #f5f5f5;
+--colorNeutralStroke1Hover: #c7c7c7;
+--backgroundImage: url('./background-image-light.avif');
+--inspirational-neutral-foreground-rest: var(--neutral-foreground-rest);
+font-family: var(--font-family);
+-webkit-font-smoothing: antialiased;
+display: none;
+align-items: center;
+box-sizing: border-box;
+background-color: var(--neutral-layer-floating);
+border-radius: 22px;
+height: 35px;
+gap: 7px;
+border-color: white;
+color: var(--neutral-foreground-rest);
+box-shadow: rgba(0, 0, 0, 0.11) 0px 0px 2.9px 0px,
+rgba(0, 0, 0, 0.13) 0px 1.6px 3.6px 0px;
+border: 3px solid;
+-webkit-user-select: none;
+user-select: none;
+cursor: text;
+width: 240px;
+grid-row: 2;
+}
+
+/*Safari and Chrome*/
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none; 
+    height: 1rem;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 1rem;
+    background: #1e1e1e;
+    margin-top: 10px;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 1rem;
+    background: #1e1e1e;
+    border-radius: 1rem;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none; 
+    height: 1rem;
+    width: 1rem;
+    background-color: white;
+    border-radius: 50%;
+  /*slider-thumb border color*/
+    border-width: 0px;
+  /*Colors*/
+    box-shadow: -50rem 0 5rem 50rem hsl(6, 97%, 71%),
+                -900rem 0 5rem 60rem hsl(6, 100%, 80%),
+                -90rem 0 2rem 30rem hsl(346, 99%, 69%),
+                -120rem 0 0 25.5rem  hsl(335, 100%, 65%);
+}
